@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import DesktopIcon from "./components/DesktopIcon";
 import Window from "./components/Window";
@@ -10,6 +10,8 @@ import useSound from "use-sound";
 
 
 export default function Home() {
+
+  const [isMobile, setIsMobile] = useState(false);
 
   const [showAbout, setShowAbout] = useState(false);
 
@@ -40,6 +42,28 @@ export default function Home() {
     loop: true,
   }
 );
+
+useEffect(() => {
+  const checkMobile = () => {
+    setIsMobile(window.innerWidth < 768);
+  };
+
+  checkMobile();
+
+  window.addEventListener("resize", checkMobile);
+
+  return () => {
+    window.removeEventListener("resize", checkMobile);
+  };
+}, []);
+
+  const closeAllWindows = () => {
+  setShowAbout(false);
+  setShowProjects(false);
+  setShowContact(false);
+  setShowLinks(false);
+  setShowResume(false);
+  };
 
   return (
     <main
@@ -94,8 +118,8 @@ export default function Home() {
                 </>
               ) : (
                 <>
-                  <stop offset="0%" stopColor="#c7e4ff" />
-                  <stop offset="100%" stopColor="#a0d2ff" />
+                  <stop offset="0%" stopColor="#faa5b2" />
+                  <stop offset="100%" stopColor="#FFB5C0" />
                 </>
               )}
 
@@ -163,8 +187,8 @@ export default function Home() {
           <Image
             src="/decorations/otter.png"
             alt="otter"
-            width={150}
-            height={150}
+            width={isMobile ? 90 : 150}
+            height={isMobile ? 90 : 150}
             className="select-none animate-[float_4s_ease-in-out_infinite]"
             priority
           />
@@ -176,7 +200,7 @@ export default function Home() {
 
       {/* Main Window */}
       <div
-        className={`relative z-10 mt-20 w-[800px] overflow-hidden rounded-[7px] border-2 shadow-2xl transition-all duration-500 ${
+        className={`relative z-10 mt-20 w-[90vw] md:w-[800px] overflow-hidden rounded-[7px] border-2 shadow-2xl transition-all duration-500 ${
           darkMode
             ? "border-white bg-[#102347]"
             : "border-gray-400 bg-[#f8f8f8]"
@@ -198,13 +222,13 @@ export default function Home() {
         <div className="flex flex-col items-center px-10 pt-24 pb-20">
 
           <h1
-            className={`text-7xl font-bold tracking-tight transition-colors duration-500 ${
+            className={`text-4xl md:text-7xl font-bold tracking-tight transition-colors duration-500 ${
               darkMode
                 ? "text-white"
                 : "text-[#4a4a4a]"
             }`}
           >
-            hi! i’m{" "}
+            Hii! I’m{" "}
             <span
               className={`transition-colors duration-500 ${
                 darkMode
@@ -212,12 +236,12 @@ export default function Home() {
                   : "text-[#f5a623]"
               }`}
             >
-              kazu
+              Prachii
             </span>
           </h1>
 
           <p
-            className={`mt-7 text-2xl font-light tracking-wide transition-colors duration-500 ${
+            className={`mt-7 text-lg md:text-2xl font-light tracking-wide transition-colors duration-500 ${
               darkMode
                 ? "text-gray-200"
                 : "text-[#5f5f5f]"
@@ -227,7 +251,17 @@ export default function Home() {
           </p>
 
           {/* Icons */}
-          <div className="mt-12 flex gap-10 text-center">
+          <div
+            className="
+              mt-12
+              grid
+              grid-cols-2
+              gap-6
+              text-center
+              md:flex
+              md:gap-10
+            "
+          >
 
             <DesktopIcon
               icon="/icons/about.png"
@@ -283,7 +317,7 @@ export default function Home() {
       </div>
 
       {/* About Window */}
-      {showAbout && (
+      {showAbout && !isMobile && (
         <Window
           title="about me"
           x="26%"
@@ -313,7 +347,7 @@ export default function Home() {
                     : "text-[#f5a623]"
                 }`}
               >
-                Tejan
+                Prachii
               </h2>
 
               <p
@@ -382,7 +416,7 @@ export default function Home() {
       )}
 
             {/* Links Window */}
-      {showLinks && (
+      {showLinks && !isMobile && (
         <Window
           title="links"
           x="30%"
@@ -396,7 +430,7 @@ export default function Home() {
           <div className="grid grid-cols-3 gap-8">
 
             <a
-              href="https://github.com/Tejan03"
+              href="https://github.com/"
               target="_blank"
               className="flex flex-col items-center transition hover:scale-110"
             >
@@ -421,7 +455,7 @@ export default function Home() {
             </a>
 
             <a
-              href="https://www.youtube.com/@tejan9171"
+              href="https://www.youtube.com/"
               target="_blank"
               className="flex flex-col items-center transition hover:scale-110"
             >
@@ -446,7 +480,7 @@ export default function Home() {
             </a>
 
             <a
-              href="https://x.com/Itz_tenji"
+              href="https://x.com/"
               target="_blank"
               className="flex flex-col items-center transition hover:scale-110"
             >
@@ -471,7 +505,7 @@ export default function Home() {
             </a>
 
             <a
-              href="https://www.linkedin.com/in/tejan-raj-8153632ab/"
+              href="https://www.linkedin.com/in/prachi-yadav-791b4438b/"
               target="_blank"
               className="flex flex-col items-center transition hover:scale-110"
             >
@@ -496,7 +530,7 @@ export default function Home() {
             </a>
 
             <a
-              href="https://www.instagram.com/kazu0.3/"
+              href="https://www.instagram.com/"
               target="_blank"
               className="flex flex-col items-center transition hover:scale-110"
             >
@@ -526,7 +560,7 @@ export default function Home() {
       )}
 
       {/* Projects Window */}
-      {showProjects && (
+      {showProjects && !isMobile && (
         <Window
           title="projects"
           x="38%"
@@ -541,7 +575,10 @@ export default function Home() {
 
             {/* Physics */}
             <button
-              onClick={() => setShowPhysics(true)}
+              onClick={() => {
+                setShowProjects(false);
+                setShowPhysics(true);
+              }}
               className={`flex w-full items-center justify-between border px-6 py-5 text-left font-mono text-[22px] transition ${
                 darkMode
                   ? "border-[#2f4f6b] bg-[#1b3550] text-white hover:bg-[#244267]"
@@ -561,7 +598,10 @@ export default function Home() {
 
             {/* Portfolio */}
             <button
-              onClick={() => setShowPortfolioProject(true)}
+              onClick={() => {
+                setShowProjects(false);
+                setShowPortfolioProject(true);
+              }}
               className={`flex w-full items-center justify-between border px-6 py-5 text-left font-mono text-[22px] transition ${
                 darkMode
                   ? "border-[#2f4f6b] bg-[#1b3550] text-white hover:bg-[#244267]"
@@ -581,7 +621,10 @@ export default function Home() {
 
             {/* Todo */}
             <button
-              onClick={() => setShowTodoProject(true)}
+              onClick={() => {
+                setShowProjects(false);
+                setShowTodoProject(true);
+              }}
               className={`flex w-full items-center justify-between border px-6 py-5 text-left font-mono text-[22px] transition ${
                 darkMode
                   ? "border-[#2f4f6b] bg-[#1b3550] text-white hover:bg-[#244267]"
@@ -602,10 +645,11 @@ export default function Home() {
           </div>
 
         </Window>
+        
       )}
       
       {/* Contact Window */}
-      {showContact && (
+      {showContact && !isMobile && (
         <Window
           title="contact"
           x="40%"
@@ -661,15 +705,15 @@ export default function Home() {
             </p>
 
             <a
-              href="mailto:tejanraj003@gmail.com"
+              href="mailto:a.prachiyadav1@gmail.com"
               className="mt-2 text-2xl text-[#f59e0b] underline"
             >
-              tejanraj003@gmail.com
+              a.prachiyadav1@gmail.com
             </a>
 
             {/* Button */}
             <a
-              href="mailto:tejanraj003@gmail.com"
+              href="mailto:a.prachiyadav1@gmail.com"
               className="mt-8 rounded-xl bg-[#f59e0b] px-8 py-4 text-2xl font-semibold text-white transition hover:scale-105 hover:bg-[#e78d00]"
             >
               send me an email!
@@ -681,7 +725,7 @@ export default function Home() {
       )}
 
       {/* Physics Project Window */}
-      {showPhysics && (
+      {showPhysics && !isMobile && (
         <Window
           title="2D physics simulator"
           x="42%"
@@ -710,7 +754,7 @@ export default function Home() {
       )}
 
       {/* Portfolio Project Window */}
-      {showPortfolioProject && (
+      {showPortfolioProject && !isMobile && (
         <Window
           title="retro portfolio"
           x="44%"
@@ -740,7 +784,7 @@ export default function Home() {
       )}
 
       {/* Todo Project Window */}
-      {showTodoProject && (
+      {showTodoProject && !isMobile && (
         <Window
           title="todo app"
           x="46%"
@@ -771,7 +815,7 @@ export default function Home() {
       )}
 
       {/* Resume Window */}
-      {showResume && (
+      {showResume && !isMobile && (
         <Window
           title="resume"
           x="36%"
@@ -835,6 +879,123 @@ export default function Home() {
         </Window>
       )}
 
+      {isMobile && showAbout && (
+        <div className="fixed inset-0 z-[100] bg-white p-6 overflow-y-auto">
+
+          <button
+            onClick={closeAllWindows}
+            className="mb-6 text-lg font-semibold"
+          >
+            ← back
+          </button>
+
+          <div className="flex flex-col items-center">
+
+            <Image
+              src="/about/avatar.jpg"
+              alt="avatar"
+              width={120}
+              height={120}
+              className="rounded-full"
+            />
+
+            <h2 className="mt-6 text-3xl font-bold">
+              Prachii
+            </h2>
+
+            <p className="mt-2 text-gray-600">
+              Student, Developer, Designer
+            </p>
+
+            <p className="mt-6 text-center leading-relaxed">
+              i love building interactive experiences,
+              front-end design, DSA related brainstorming,
+              and creative projects.
+            </p>
+
+          </div>
+
+        </div>
+      )}
+
+    {isMobile && showProjects && (
+        <div className="fixed inset-0 z-[100] bg-white p-6 overflow-y-auto">
+
+          <button
+            onClick={closeAllWindows}
+            className="mb-6 text-lg font-semibold"
+          >
+            ← back
+          </button>
+
+          <h2 className="text-3xl font-bold mb-8">
+            Projects
+          </h2>
+
+          <div className="space-y-4">
+
+            <button
+              onClick={() => {
+                setShowProjects(false);
+                setShowPhysics(true);
+              }}
+              className="w-full rounded-lg border p-5 text-left"
+            >
+              ⚡ 2D Physics Simulator
+            </button>
+
+            <button
+              onClick={() => {
+                setShowProjects(false);
+                setShowPortfolioProject(true);
+              }}
+              className="w-full rounded-lg border p-5 text-left"
+            >
+              🌊 Retro Portfolio Website
+            </button>
+
+            <button
+              onClick={() => {
+                setShowProjects(false);
+                setShowTodoProject(true);
+              }}
+              className="w-full rounded-lg border p-5 text-left"
+            >
+              📱 To-Do App with Jetpack Compose
+            </button>
+
+          </div>
+
+        </div>
+      )}
+
+    {isMobile && showPhysics && (
+          <div className="fixed inset-0 z-[110] bg-white p-6 overflow-y-auto">
+
+            <button
+              onClick={() => setShowPhysics(false)}
+              className="mb-6 text-lg font-semibold"
+            >
+              ← back
+            </button>
+
+            <h2 className="text-3xl font-bold">
+              2D Physics Simulator ⚡
+            </h2>
+
+            <p className="mt-5 leading-relaxed">
+              a custom-built physics sandbox featuring gravity,
+              collision handling, momentum, and interactive
+              motion systems.
+            </p>
+
+            <p className="mt-5 leading-relaxed">
+              built using c++ and custom rendering logic while
+              experimenting with real-time physics.
+            </p>
+
+          </div>
+        )}
     </main>
   );
 }
